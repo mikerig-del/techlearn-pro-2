@@ -176,10 +176,21 @@ async function loadAllModules() {
     const modules = await response.json();
     const modulesDiv = document.getElementById('allModules');
     
+    // Add upload button for admins
+    let headerHtml = '';
+    if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'manager')) {
+      headerHtml = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0;">All Learning Modules</h2>
+          <button class="btn btn-primary" onclick="showUploadModal()" style="width: auto; padding: 10px 20px;">📤 Upload New Content</button>
+        </div>
+      `;
+    }
+    
     if (modules.length > 0) {
-      modulesDiv.innerHTML = modules.map(module => renderModuleCard(module, false)).join('');
+      modulesDiv.innerHTML = headerHtml + modules.map(module => renderModuleCard(module, false)).join('');
     } else {
-      modulesDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>No modules available yet</p></div>';
+      modulesDiv.innerHTML = headerHtml + '<div class="empty-state"><div class="empty-state-icon">📚</div><p>No modules available yet</p></div>';
     }
   } catch (error) {
     console.error('Load modules error:', error);
@@ -518,5 +529,58 @@ function showTab(tabName) {
     } else if (tabName === 'analytics') {
       loadAnalytics();
     }
+  }
+}
+
+// Content Upload Functions
+function showUploadModal() {
+  document.getElementById('uploadModal').style.display = 'block';
+}
+
+function closeUploadModal() {
+  document.getElementById('uploadModal').style.display = 'none';
+  document.getElementById('uploadForm').reset();
+}
+
+async function handleContentUpload(e) {
+  e.preventDefault();
+  
+  const form = e.target;
+  const formData = new FormData(form);
+  const uploadBtn = form.querySelector('button[type="submit"]');
+  const originalText = uploadBtn.textContent;
+  
+  try {
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = 'Uploading... ⏳';
+    
+    const response = await fetch(`${API_BASE}/content/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: formData
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Upload failed');
+    }
+    
+    const result = await response.json();
+    
+    // Show success message
+    alert(`✅ Content uploaded successfully!\n\nModule: ${result.module.title}\n\nAI processing complete!`);
+    
+    // Close modal and reload modules
+    closeUploadModal();
+    loadAllModules();
+    
+  } catch (error) {
+    console.error('Upload error:', error);
+    alert('❌ Upload failed: ' + error.message);
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.textContent = originalText;
   }
 }

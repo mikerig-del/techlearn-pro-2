@@ -602,6 +602,46 @@
     </div>
   </div>
 
+  <!-- Upload Modal -->
+  <div id="uploadModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+      <span class="close-modal" onclick="closeUploadModal()">&times;</span>
+      <h2 style="margin-bottom: 20px; color: #667eea;">📤 Upload Training Content</h2>
+      <form id="uploadForm" onsubmit="handleContentUpload(event)">
+        <div class="form-group">
+          <label>Title *</label>
+          <input type="text" name="title" required placeholder="e.g., Introduction to Brake Systems">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" rows="3" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 16px;" placeholder="Brief description of the training content..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" name="category" placeholder="e.g., Technical Training, Safety, Compliance">
+        </div>
+        <div class="form-group">
+          <label>Difficulty Level</label>
+          <select name="difficulty_level" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Upload File *</label>
+          <input type="file" name="file" required accept=".pdf,.mp4,.mov,.avi,.doc,.docx" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
+          <p style="font-size: 13px; color: #888; margin-top: 8px;">✅ Supported: PDF, Video (MP4, MOV, AVI), Word documents</p>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 30px;">
+          <button type="submit" class="btn" style="flex: 1;">🚀 Upload & Process</button>
+          <button type="button" class="btn" onclick="closeUploadModal()" style="flex: 1; background: #ccc;">❌ Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="app.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9abdca728d2c328e","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.9.1","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
 </body>
 </html>
