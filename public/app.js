@@ -569,61 +569,10 @@ async function handleContentUpload(e) {
     
     const result = await response.json();
     
-    // Show success message
-    alert(`✅ Content uploaded successfully!\n\nModule: ${result.module.title}\n\nAI processing complete!`);
+    // Show simple success message (doesn't depend on response structure)
+    alert('✅ Content uploaded successfully!\n\nYour training module has been created and is now available in Learning Modules!');
     
     // Close modal and reload modules
-    closeUploadModal();
-    loadAllModules();
-    
-  } catch (error) {
-    console.error('Upload error:', error);
-    alert('❌ Upload failed: ' + error.message);
-  } finally {
-    uploadBtn.disabled = false;
-    uploadBtn.textContent = originalText;
-  }
-}
-
-// Content Upload Functions
-function showUploadModal() {
-  document.getElementById('uploadModal').style.display = 'block';
-}
-
-function closeUploadModal() {
-  document.getElementById('uploadModal').style.display = 'none';
-  document.getElementById('uploadForm').reset();
-}
-
-async function handleContentUpload(e) {
-  e.preventDefault();
-  
-  const form = e.target;
-  const formData = new FormData(form);
-  const uploadBtn = form.querySelector('button[type="submit"]');
-  const originalText = uploadBtn.textContent;
-  
-  try {
-    uploadBtn.disabled = true;
-    uploadBtn.textContent = 'Uploading... ⏳';
-    
-    const response = await fetch(`${API_BASE}/content/upload`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${authToken}`
-      },
-      body: formData
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Upload failed');
-    }
-    
-    const result = await response.json();
-    
-    alert(`✅ Content uploaded successfully!\n\nModule: ${result.module.title}\n\nAI processing complete!`);
-    
     closeUploadModal();
     loadAllModules();
     
