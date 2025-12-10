@@ -1,0 +1,13 @@
+
+=================================
+🚀 TechLearn Platform Started!
+=================================
+📍 Server: http://localhost:8080
+📊 API: http://localhost:8080/api
+🔧 Environment: development
+=================================
+
+Login credentials:
+  Admin - username: admin, password: admin123
+  Learner - username: learner, password: learner123
+
